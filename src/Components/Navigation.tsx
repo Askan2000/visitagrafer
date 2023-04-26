@@ -5,6 +5,8 @@ import FetchDataMonthlyKPI from './FetchDataMonthlyChange';
 import FetchDataYearlyKPI from './FetchDataYearlyChange';
 import FetchDataYearlyChangeTotAndRest from './FetchDataYearlyChangeTotAndRest'
 import Home from './Home';
+import KpiAndSPI from './KpiAndSPI'
+
 
 const Navigation: React.FC = () => {
   return (
@@ -26,6 +28,9 @@ const Navigation: React.FC = () => {
           <NavDropdown.Item>
             <Link to="/FetchDataYearlyTotAndRest">KPI och restaurangpriserna</Link>
           </NavDropdown.Item>
+          <NavDropdown.Item>
+            <Link to="/KPI_SPI">KPI och SPI</Link>
+          </NavDropdown.Item>
         </NavDropdown>
       </Navbar.Collapse>
     </Navbar>
@@ -35,6 +40,7 @@ const Navigation: React.FC = () => {
         <Route path="/FetchDataMonthlyKPI" element = {<FetchDataMonthlyKPI/>}/>
         <Route path="/FetchDataYearlyKPI" element = {<FetchDataYearlyKPI/>}/>
         <Route path="/FetchDataYearlyTotAndRest" element = {<FetchDataYearlyChangeTotAndRest/>}/>
+        <Route path="/KPI_SPI" element = {<KpiAndSPI/>}/>
 
       </Routes>
     </div>
