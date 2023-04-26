@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/examensprojekt/static/css/main.756af292.css",
+    "main.js": "/examensprojekt/static/js/main.f53a1ae0.js",
+    "index.html": "/examensprojekt/index.html",
+    "main.756af292.css.map": "/examensprojekt/static/css/main.756af292.css.map",
+    "main.f53a1ae0.js.map": "/examensprojekt/static/js/main.f53a1ae0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.756af292.css",
+    "static/js/main.f53a1ae0.js"
+  ]
+}
