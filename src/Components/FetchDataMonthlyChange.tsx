@@ -1,19 +1,10 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import DataVisualizer, {Data} from "./DataVisualizerMonthlyChange";
-
- /*  const scbConfig = {
-    headers: {
-    'Content-Type': 'application/json'
-    }
-}; */
+import DataVisualizerMonthlyChange, {DataMonthlyChange} from "./DataVisualizerMonthlyChange";
 
 const client = axios.create({
     baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A/KPICOI80MN"
 });
-
-//    baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A/KPItotM"
-
 
 const query = JSON.stringify({
   "query": [
@@ -41,12 +32,12 @@ const query = JSON.stringify({
   }
 });
 
-const FetchData: React.FC = () => { 
+const FetchDataMonthlyKPI: React.FC = () => { 
   
-    const [scbData, setScbData] = useState<Data[]>([]);
+    const [scbData, setScbData] = useState<DataMonthlyChange[]>([]);
 
     useEffect( () => {
-        const fetchPost = async () => {
+        const fetchData = async () => {
         try {
             let response = await client.post('', query);
             console.log("Från FetchDataComponent");
@@ -54,23 +45,23 @@ const FetchData: React.FC = () => {
             const mappedData = response.data.data.map((item: any) => ({
               month: item.key[1],
               index: item.values[0]
-            })) as Data[];
+            })) as DataMonthlyChange[];
             setScbData(mappedData);
         }
         catch (error) {
             console.log(error);
         }
         };
-        fetchPost();
+        fetchData();
         
     }, []);
 
     return(
         <div>
-          <DataVisualizer data={scbData}/>
+          <DataVisualizerMonthlyChange data={scbData}/>
         </div>
     )
 }
 
-export default FetchData;
+export default FetchDataMonthlyKPI;
 
