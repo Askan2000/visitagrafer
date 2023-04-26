@@ -5,16 +5,10 @@ import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
 
 export interface DataYearlyChangeTotAndRest {
-    monthKPI: number;
+    month: number;
     indexKPI: number;
-    monthRest: number;
     indexRest: number;
   };
-/* 
-export interface DataYearlyChangeTot {
-    month: number;
-    index: number;
-  }; */
 
   interface Props {
     data: DataYearlyChangeTotAndRest[];
@@ -22,7 +16,6 @@ export interface DataYearlyChangeTot {
 
 const DataVisualizer: React.FC<Props> = ({ data}) => 
 {
-
   const [getPng, { ref, isLoading }] = useCurrentPng();
 
   const handleDownload = useCallback(async () => {
@@ -35,39 +28,44 @@ const DataVisualizer: React.FC<Props> = ({ data}) =>
     }
   }, [getPng]);
 
-    console.log("från Visualizer årstakt")
-    console.log(data);
+    console.log("från Visualizer årstakt", data)
+    
+    const firstValidIndexRestIndex = data.findIndex((item) => !isNaN(item.indexRest));
+    const filteredData = data.slice(firstValidIndexRestIndex);
+
+    console.log("bort med NaN: ", filteredData)
+
     //Spara en delmängd av datan
-    const slicedData = data.slice(-27);
+    const slicedData = filteredData.slice(-25);
     console.log(slicedData)
 
-    const dataKpiMax = Math.max(...data.map((item) => item.indexKPI));
-    const dataRestMax = Math.max(...data.map((item) => item.indexRest));
+    const dataKpiMax = Math.max(...slicedData.map((item) => item.indexKPI));
+    const dataRestMax = Math.max(...slicedData.map((item) => item.indexRest));
     const dataMax = dataKpiMax > dataRestMax ? dataKpiMax : dataRestMax;
+    
+    console.log("DataKpiMax är: ", dataKpiMax);
+    console.log("dataRestMax är: ", dataRestMax);
+    console.log("DataMax är: ", dataMax);
 
     const yAxisDomain = [0, Math.ceil(dataMax / 10) * 10 + 10];
 
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
         <div>
-          <h2>Försäljningsprisutveckling på restaurang enligt KPI, och KPI totalt
-Senaste 25 månaderna</h2>
-          <h4>Procentuell förändring jämfört med motsvarande månad föregående år</h4>
+          <h3>Försäljningsprisutveckling på restaurang enligt KPI, och KPI totalt <br/> Senaste 25 månaderna</h3>
+          <h5>Procentuell förändring jämfört med motsvarande månad föregående år</h5>
           <div style={{ fontStyle: "italic" }}>Källa: KPI/SCB</div>
-            <BarChart width={800} height={400} data={slicedData} ref={ref}
-              margin={{ top: 20, right: 40, left: 40, bottom: 50 }}>
+            <LineChart width={800} height={400} data={slicedData} ref={ref}
+              margin={{ top: 20, right: 50, left: 50, bottom: 50 }}>
               <XAxis dataKey="month" interval={0} angle={-45} textAnchor="end" 
               tickMargin={20}/>
-              <YAxis hide domain= {yAxisDomain}/>
+              <YAxis hide />
               <Tooltip />
-              <Bar isAnimationActive={false}  dataKey="index" fill="#AEBD15">
-                <Label
-                  value="Graftitel"
-                  position="insideTop"
-                  style={{ fontSize: "24px", fontWeight: "bold", fill: "#333" }} />
-                <LabelList dataKey="index" position="top"/>
-              </Bar>
-            </BarChart>
+              <Line name="KPI totalt" type="monotone" dataKey="indexKPI" stroke="#479A96"  />
+              <Line name="Restaurang" type="monotone" dataKey="indexRest" stroke="#AEBD15" />
+              <Legend verticalAlign="top" height={36}/>
+
+            </LineChart>
           <br/>
           <button onClick={handleDownload}>
             {isLoading ? 'Laddar ner...' : 'Exportera'}

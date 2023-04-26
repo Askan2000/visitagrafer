@@ -59,25 +59,23 @@ const queryKpiTot = JSON.stringify({
                 let responseTot = await client.post('KPItotM', queryKpiTot);
                 let responseRest = await client.post('KPICOI80MN', queryKpiRest);
 
-                console.log("Från FetchDataComponentTot");
-                console.log(responseTot.data);
-                console.log("Från FetchDataComponentRest");
-                console.log(responseRest.data);
                 const totData = responseTot.data.data;
                 const restData = responseRest.data.data;
-                console.log("Data data tot: ");
+                
+                const mappedTotAndRest: DataYearlyChangeTotAndRest[] = totData.map((tot:any, index: any) => {
+                    const rest = restData[index];
+                    
+                    return {
+                        month: tot.key[0],
+                        indexKPI: tot.values[0],
+                        indexRest: rest.values[0]
+                    } as DataYearlyChangeTotAndRest;
+                });
 
-                console.log(totData)
-                var c = [...totData, ...restData]
-                console.log(c);
-
-                console.log(c);
-
-                const mappedData = responseTot.data.data.map((item: any) => ({
-                  month: item.key[1],
-                  index: item.values[0]
-                })) as DataYearlyChangeTotAndRest[];
-                setScbData(mappedData);
+                
+                console.log("Mappad data");
+                console.log(mappedTotAndRest)
+                setScbData(mappedTotAndRest);
             }
             catch (error) {
                 console.log(error);
