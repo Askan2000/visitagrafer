@@ -21,23 +21,16 @@ const DataVisualizer: React.FC<Props> = ({ data}) =>
   const handleDownload = useCallback(async () => {
     const png = await getPng();
 
-    // Verify that png is not undefined
     if (png) {
-      // Download with FileSaver
       FileSaver.saveAs(png, 'KPI_restaurang_och_totalt_årstakt.png');
     }
   }, [getPng]);
-
-    console.log("från Visualizer årstakt", data)
     
     const firstValidIndexRestIndex = data.findIndex((item) => !isNaN(item.indexRest));
     const filteredData = data.slice(firstValidIndexRestIndex);
 
-    console.log("bort med NaN: ", filteredData)
-
     //Spara en delmängd av datan
     const slicedData = filteredData.slice(-25);
-    console.log(slicedData)
 
     const dataKpiMax = Math.max(...slicedData.map((item) => item.indexKPI));
     const dataRestMax = Math.max(...slicedData.map((item) => item.indexRest));

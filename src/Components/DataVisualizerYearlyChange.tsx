@@ -28,9 +28,6 @@ const DataVisualizer: React.FC<Props> = ({ data }) =>
     }
   }, [getPng]);
 
-    console.log("från Visualizer årstakt")
-    console.log(data);
-
     //Spara en delmängd av datan
     const slicedData = data.slice(-27);
     console.log(slicedData)
