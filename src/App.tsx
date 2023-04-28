@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import FetchData from './Components/FetchDataMonthlyChange'
+import FetchData from './Components/FetchData/FetchDataMonthlyChange'
 import Navigation from './Components/Navigation'
 //import Footer from './Components/Footer'
 import 'bootstrap/dist/css/bootstrap.min.css';

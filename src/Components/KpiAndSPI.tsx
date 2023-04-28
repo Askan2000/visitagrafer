@@ -4,7 +4,8 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, Legend} from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
 import axios from 'axios';
-import {DataYearlyChange} from "./DataVisualizerYearlyChange";
+import {DataYearlyChange} from "./VisualizeData/DataVisualizerYearlyChange";
+import { round } from './Utils/DecimalHandler';
 
 const client = axios.create({
     baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A/KPICOI80MN"
@@ -36,10 +37,23 @@ const query = JSON.stringify({
       }
     });
 
+    const customLabel = (props: any) => {
+        const {
+           x, y, value
+          } = props;
+            const customValue = round(value, 1).toFixed(1);
+            return(
+            <text x={x} y={y} dy={-7} dx={-5} fontSize='10' textAnchor='top'>
+              {customValue}
+            </text>
+            )
+      };
+
 const KpiAndSPI = () => {
     const [xlsxData, setXlsxData] = useState<any[]>([]);
     const [scbData, setScbData] = useState<DataYearlyChange[]>([]);
     const [combinedData, setCombinedData] = useState<any[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
     const [getPng, { ref, isLoading }] = useCurrentPng();
 
@@ -92,7 +106,6 @@ const KpiAndSPI = () => {
             percentageChange: percentageChange
         };
         });
-        console.log("såhär blev spi-procent-arrayen", yearlyChangeArray)
         setXlsxData(yearlyChangeArray);
     };
 
@@ -101,8 +114,6 @@ const KpiAndSPI = () => {
         const fetchData = async () => {
         try {
             let response = await client.post('', query);
-            console.log("Från FetchDataComponent");
-            console.log(response.data);
             const mappedData = response.data.data.map((item: any) => ({
                 month: item.key[1],
                 index: item.values[0]
@@ -110,7 +121,7 @@ const KpiAndSPI = () => {
             setScbData(mappedData);
         }
         catch (error) {
-            console.log(error);
+            setError("An error occurred while fetching data.");
         }
         };
         fetchData();
@@ -123,44 +134,73 @@ const KpiAndSPI = () => {
             const slicedDataToFitSPI = scbData.slice(460);
             const combinedDataArray = slicedDataToFitSPI.map((item:any, index:number ) => {
                 
-                const spiDataPoint = xlsxData[index];
-                return{
-                    month: item.month,
-                    restSpi: spiDataPoint,
-                    restKpi: item.index
-                }
-            })
+            const spiDataPoint = xlsxData[index];
+            return {
+                month: item.month,
+                restSpi: spiDataPoint,
+                restKpi: item.index
+            };
+            });
+
             const slicedCombinedData = combinedDataArray.slice(-25)
             setCombinedData(slicedCombinedData);
-            console.log("den kombinerade spi och rest: ", combinedDataArray);
-        }   
-    }, [xlsxData, scbData])
+        }
+    }, [xlsxData, scbData]);
+
+    const dataMax = Math.max(
+        ...combinedData.map((item) => item.restSpi),
+        ...combinedData.map((item) => item.restKpi)
+    )
+    const dataMin = Math.min(
+        ...combinedData.map((item) => item.restSpi),
+        ...combinedData.map((item) => item.restKpi)
+    )
+    const yAxisDomain = [(dataMin - 2), (dataMax + 2)];
     
-    return(<>
+    if (error) {
+        return <div>{error}</div>;
+    }
+    return(
+    <>
         <input type="file" onChange={handleFileUpload} />
         {
             (xlsxData.length > 0 && scbData.length > 0)
             ?
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}> <div>
-            <h3>Inköpspriser på livsmedel för restaurangföretag (t.o.m. {scbData[scbData.length-1]?.month}) <br/>
-            och försäljningspriser på restaurang till konsument (KPI - COICOP) </h3>
-            <h5>Procentuell förändring jämfört med motsvarande månad föregående år</h5>
-            <div style={{ fontStyle: "italic" }}>Källa: KPI/SCB och Storhushålls </div>
-                <LineChart width={800} height={400} data={combinedData} ref={ref}
-                margin={{ top: 20, right: 50, left: 50, bottom: 50 }}>
-                <XAxis dataKey="month" interval={0} angle={-45} textAnchor="end" 
-                tickMargin={20}/>
-                <YAxis hide />
-                <Tooltip />
-                <Line name="Restaurangpriser till konsument" type="monotone" dataKey="restKpi" stroke="#AEBD15" />
-                <Line name="Inköpspriser på restaurangföretag" type="monotone" dataKey="restSpi.percentageChange" stroke="#479A96" />
-                <Legend verticalAlign="top" height={36}/>
-                </LineChart>
-            <br/>
-            <button onClick={handleDownload}>
-                {isLoading ? 'Laddar ner...' : 'Exportera'}
-            </button>
-            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}> 
+                <div>
+                    <LineChart width={800} height={550} data={combinedData} ref={ref}
+                    margin={{ top: 110, right: 40, left: 50, bottom: 50 }}>
+                    <text x={20} y={20} 
+                    style={{fontSize: 24, fontWeight: 'bold', fill: '#595959'}}>
+                    Inköpspriser på livsmedel för restaurangföretag (t.o.m. {scbData[scbData.length-1]?.month})
+                    </text>
+                    <text x={20} y={45} 
+                    style={{fontSize: 24, fontWeight: 'bold', fill: '#595959'}}>
+                    och försäljningspriser på restaurang till konsument (KPI - COICOP)
+                    </text>
+                    <text x={20} y={70} 
+                    style={{fontSize: 18, fill: '#595959'}}>
+                    Procentuell förändring jämfört med motsvarande månad föregående år
+                    </text>
+                    <text x={20} y={95} 
+                    style={{fontSize: 16, fontStyle:'italic', fill: '#595959'}}>
+                    Källa: KPI/SCB och Storhushållsprisindex
+                    </text>
+                    <XAxis dataKey="month" interval={0} angle={-45} textAnchor="end" 
+                    tickMargin={20}/>
+                    <YAxis hide domain={yAxisDomain}/>
+                    <Tooltip />
+                    <Line isAnimationActive={false} name="Restaurangpriser till konsument" type="monotone" dataKey="restKpi" 
+                    stroke="#AEBD15" label={customLabel}/>
+                    <Line isAnimationActive={false} name="Inköpspriser på restaurangföretag" type="monotone" dataKey="restSpi.percentageChange" 
+                    stroke="#479A96" label={customLabel}/>
+                    <Legend verticalAlign="top" height={50}/>
+                    </LineChart>
+                    <br/>
+                    <button onClick={handleDownload}>
+                        {isLoading ? 'Laddar ner...' : 'Exportera'}
+                    </button>
+                </div>
             </div>
             : null
         }

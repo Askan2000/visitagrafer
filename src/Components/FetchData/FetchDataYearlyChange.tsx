@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import DataVisualizerYearlyChange, {DataYearlyChange} from "./DataVisualizerYearlyChange";
+import DataVisualizerYearlyChange, {DataYearlyChange} from "../VisualizeData/DataVisualizerYearlyChange";
 
 const client = axios.create({
     baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A/KPICOI80MN"
@@ -32,16 +32,15 @@ const query = JSON.stringify({
       }
     });
 
-    const FetchDataYearlyKPI: React.FC = () => { 
+    const YearlyKPI: React.FC = () => { 
   
         const [scbData, setScbData] = useState<DataYearlyChange[]>([]);
-    
+        const [error, setError] = useState<string | null>(null);
+
         useEffect( () => {
             const fetchData = async () => {
             try {
                 let response = await client.post('', query);
-                console.log("Från FetchDataComponent");
-                console.log(response.data);
                 const mappedData = response.data.data.map((item: any) => ({
                   month: item.key[1],
                   index: item.values[0]
@@ -49,18 +48,21 @@ const query = JSON.stringify({
                 setScbData(mappedData);
             }
             catch (error) {
-                console.log(error);
+                setError("An error occurred while fetching data.");
             }
             };
             fetchData();
             
         }, []);
     
-        return(
-            <div>
-              <DataVisualizerYearlyChange data={scbData}/>
-            </div>
-        )
+    if (error) {
+        return <div>{error}</div>;
     }
+    return(
+        <div>
+            <DataVisualizerYearlyChange data={scbData}/>
+        </div>
+    )
+};
     
-    export default FetchDataYearlyKPI;
+export default YearlyKPI;

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios, {AxiosResponse} from 'axios';
-import DataVisualizerEurostat, { euostatDataIndex } from "./DataVisualizerEurostat";
+import DataVisualizerEurostat, { euostatDataIndex } from "../VisualizeData/DataVisualizerEurostat";
 
 const client = axios.create({
     baseURL: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
@@ -17,7 +17,7 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
 
   const countries = ["SE", "DK", "NO", "FI"]; */
 
-    const FetchEurostatData: React.FC = () => { 
+    const EurostatData: React.FC = () => { 
   
         const [eurostatIndex, setEurostatIndex] = useState<euostatDataIndex[]>([]);
         const [error, setError] = useState<string | null>(null);
@@ -54,9 +54,6 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
                     responseIndexSE.data.dimension.time.category.label).map(([,value]) => ({
                     value
                     }));
-    
-                console.log("trix månad: ", indexMonth)
-                console.log("trix index se: ", seIndexData)
 
                 /* const eurostatIndexData: EurostatData[] = responses[0].data.data.value.map((item:any, index: number) => {
                     const countryData = responses.map(response => Object.entries(response.data.value)[index][1]);
@@ -83,7 +80,6 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
                         indexFI: fi.value,
                     } as euostatDataIndex;
                 }); 
-                console.log("eurostatdata från fetch: ", mappedEurostatIndex)           
                 setEurostatIndex(mappedEurostatIndex);
             }
             catch (error) {
@@ -94,14 +90,14 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
             
         }, []);
     
-        if (error) {
-            return <div>{error}</div>;
-          }
-        return(
-            <div>
-                <DataVisualizerEurostat data={eurostatIndex}/>
-            </div>
-        )
+    if (error) {
+        return <div>{error}</div>;
     }
-    
-    export default FetchEurostatData;
+    return(
+        <div>
+            <DataVisualizerEurostat data={eurostatIndex}/>
+        </div>
+    )
+}
+
+export default EurostatData;

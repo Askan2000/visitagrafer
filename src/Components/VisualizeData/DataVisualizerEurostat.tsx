@@ -15,7 +15,7 @@ interface Props {
     data: euostatDataIndex[];
 }
 
-const DataVisualizerEurostat: React.FC<Props> = ({data}) => {
+const Eurostat: React.FC<Props> = ({data}) => {
 
     const [getPng, { ref, isLoading }] = useCurrentPng();
 
@@ -37,19 +37,27 @@ const DataVisualizerEurostat: React.FC<Props> = ({data}) => {
         ...slicedData.map((item) => item.indexFI)
     )
         const yAxisDomain = [90, Math.ceil(maxIndex / 10) * 10];
-        console.log("yaxisDomain: ", yAxisDomain)
-        console.log("slicad data:", slicedData)
+   
 return(<>
     {
         (data.length > 0 ) 
         ?
         <div style={{display:"flex", justifyContent:"center"}} >
         <div>
-        <h3>Prisutveckling för restaurangnäringarna i Norden </h3>
-          <h5>Index, januari 2015 = 100. Data till och med {slicedData[slicedData.length-1]?.month}</h5>
-          <div style={{ fontStyle: "italic" }}>Källa: Eurostat</div>
-            <LineChart data={slicedData} width={700} height={400} ref={ref}
-                margin={{ top: 20, right: 30, left: 30, bottom: 50 }}>
+            <LineChart data={slicedData} width={800} height={500} ref={ref}
+                margin={{ top: 100, right: 40, left: 40, bottom: 50 }}>
+                <text x={20} y={20} 
+                style={{fontSize: 24, fontWeight: 'bold', fill: '#595959'}}>
+                  Prisutveckling för restaurangnäringarna i Norden
+                </text>
+                <text x={20} y={45} 
+                style={{fontSize: 18, fill: '#595959'}}>
+                  Index, januari 2015 = 100. Data till och med {slicedData[slicedData.length-1]?.month}
+                </text>
+                <text x={20} y={70} 
+                style={{fontSize: 16, fontStyle:'italic', fill: '#595959'}}>
+                  Källa: Eurostat
+                </text>
                 <XAxis dataKey="month" interval={0} angle={-45} textAnchor="end" 
                 tickMargin={20} ticks={ticks}/>
                 <YAxis domain={yAxisDomain} tickCount={12}/>
@@ -74,4 +82,4 @@ return(<>
 )
 }
 
-export default DataVisualizerEurostat;
+export default Eurostat;
