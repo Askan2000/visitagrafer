@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/visitagrafer/static/css/main.756af292.css",
-    "main.js": "/visitagrafer/static/js/main.53789971.js",
+    "main.js": "/visitagrafer/static/js/main.69c6c261.js",
     "index.html": "/visitagrafer/index.html",
     "main.756af292.css.map": "/visitagrafer/static/css/main.756af292.css.map",
-    "main.53789971.js.map": "/visitagrafer/static/js/main.53789971.js.map"
+    "main.69c6c261.js.map": "/visitagrafer/static/js/main.69c6c261.js.map"
   },
   "entrypoints": [
     "static/css/main.756af292.css",
-    "static/js/main.53789971.js"
+    "static/js/main.69c6c261.js"
   ]
 }
