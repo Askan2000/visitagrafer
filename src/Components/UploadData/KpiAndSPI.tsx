@@ -4,8 +4,8 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, Legend} from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
 import axios from 'axios';
-import {DataYearlyChange} from "./VisualizeData/DataVisualizerYearlyChange";
-import { round } from './Utils/DecimalHandler';
+import {DataYearlyChange} from "../VisualizeData/DataVisualizerYearlyChange";
+import { round } from '../Utils/DecimalHandler';
 
 const client = axios.create({
     baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A/KPICOI80MN"
