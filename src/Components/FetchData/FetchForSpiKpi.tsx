@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import DataVisualizerYearlyChange from "../VisualizeData/ChartKpiYearlyChange";
-import OrganizeKpiYearlyChange from "../OrganizeData/OrganizeKpiYearlyChange";
 import {YearlyKpiChangeProps} from '../../Interfaces/IYearlyKpiChange';
 import ChartSpiKpiYearlyChange from "../VisualizeData/ChartSpiKpiYearlyChange";
 
@@ -35,7 +33,7 @@ const query = JSON.stringify({
       }
     });
 
-    const YearlyKPI: React.FC = () => { 
+    const FetchForSpiKpi: React.FC = () => { 
   
         const [scbData, setScbData] = useState<YearlyKpiChangeProps[]>([]);
         const [error, setError] = useState<string | null>(null);
@@ -63,9 +61,9 @@ const query = JSON.stringify({
     }
     return(
         <div>
-            <DataVisualizerYearlyChange data={scbData}/>
+            <ChartSpiKpiYearlyChange data={scbData}/>
         </div>
     )
 };
     
-export default YearlyKPI;
+export default FetchForSpiKpi;

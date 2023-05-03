@@ -3,15 +3,12 @@ import { LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 Legend, BarChart, LabelList, Label } from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
-import { round } from "../Utils/DecimalHandler";
+import round from "../Utils/DecimalHandler";
+import {YearlyKpiChangeProps} from '../../Interfaces/IYearlyKpiChange';
 
-export interface DataYearlyChange {
-    month: number;
-    index: number;
-  };
 
   interface Props {
-    data: DataYearlyChange[];
+    data: YearlyKpiChangeProps[];
   }
 
   const customLabel = (props: any) => {
@@ -26,7 +23,7 @@ export interface DataYearlyChange {
       )
   };
   
-const YearlyChange: React.FC<Props> = ({ data }) => 
+const ChartKpiYearlyChange: React.FC<Props> = ({ data }) => 
 {
   const [getPng, { ref, isLoading }] = useCurrentPng();
 
@@ -78,4 +75,4 @@ const YearlyChange: React.FC<Props> = ({ data }) =>
     );
 };
 
-export default YearlyChange;
+export default ChartKpiYearlyChange;

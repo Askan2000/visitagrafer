@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import { Bar, XAxis, YAxis,Tooltip, BarChart } from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
-import { round } from "../Utils/DecimalHandler";
+import round from "../Utils/DecimalHandler";
 
 /* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";

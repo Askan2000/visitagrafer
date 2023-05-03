@@ -3,7 +3,7 @@ import { LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 Legend, BarChart, LabelList, Label } from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
-import { round } from "../Utils/DecimalHandler";
+import round from "../Utils/DecimalHandler";
 
 export interface DataYearlyChangeTotAndRest {
     month: number;

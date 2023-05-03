@@ -5,9 +5,10 @@ import FetchDataMonthlyKPI from './FetchData/FetchDataMonthlyChange';
 import FetchDataYearlyKPI from './FetchData/FetchDataYearlyChange';
 import FetchDataYearlyChangeTotAndRest from './FetchData/FetchDataYearlyChangeTotAndRest'
 import Home from './Home';
-import KpiAndSPI from './UploadData/KpiAndSPI'
+//import KpiAndSPI from './UploadData/KpiAndSPI'
 import FetchEurostatData from './FetchData/FetchEurostatKpi';
 import SpiDelindex from './UploadData/SpiDelindex';
+import FetchForSpiKpi from './FetchData/FetchForSpiKpi';
 
 const Navigation: React.FC = () => {
   return (
@@ -48,7 +49,7 @@ const Navigation: React.FC = () => {
         <Route path="/kpiyearlyrestaurants" element = {<FetchDataYearlyKPI/>}/>
         <Route path="/kpirestaurantsandtotal" element = {<FetchDataYearlyChangeTotAndRest/>}/>
         <Route path="/spi" element = {<SpiDelindex/>}/>
-        <Route path="/kpiandspi" element = {<KpiAndSPI/>}/>
+        <Route path="/kpiandspi" element = {<FetchForSpiKpi/>}/>
         <Route path="/eurostat" element = {<FetchEurostatData/>}/>
       </Routes>
     </div>

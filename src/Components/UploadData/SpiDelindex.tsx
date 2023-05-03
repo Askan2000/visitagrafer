@@ -3,7 +3,7 @@ import {useState,useCallback} from 'react';
 import { XAxis, YAxis, Tooltip, BarChart, Bar} from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
-import {round} from '../Utils/DecimalHandler'
+import round from '../Utils/DecimalHandler'
 
 interface SpiDelindexData{
     month: string,
