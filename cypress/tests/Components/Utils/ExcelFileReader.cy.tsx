@@ -1,3 +1,4 @@
+import React from 'react'
 import ExcelFileReader from "../../../../src/Components/Utils/ExcelFileReader"
 
 describe('ExcelFileReader', () => {
