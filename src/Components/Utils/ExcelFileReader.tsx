@@ -25,7 +25,7 @@ const ExcelFileReader  = ({onFileLoad}: any) => {
   }
   
   return(
-       <input type="file" onChange={handleFileUpload} />
+       <input data-cy="file-button" type="file" onChange={handleFileUpload} />
   );
 };
 

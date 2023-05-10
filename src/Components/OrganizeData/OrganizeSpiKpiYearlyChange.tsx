@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {YearlyKpiChangeProps} from '../../Interfaces/IYearlyKpiChange';
 import ExcelFileReader from "../Utils/ExcelFileReader";
-import Chart from './Chart';
+import ChartSpiKpi from '../Charts/ChartSpiKpi';
 import {KpiAndSpiProps} from '../../Interfaces/IKpiAndSpi';
 
 interface Props {
     data: YearlyKpiChangeProps[]
 };
 
-const ChartSpiKpiYearlyChange: React.FC<Props> = ({data}) => {
+const OrganizeSpiKpiYearlyChange: React.FC<Props> = ({data}) => {
     const [xlsxData, setXlsxData] = useState<any[]>([]);
     const [combinedData, setCombinedData] = useState<KpiAndSpiProps[]>([]);
     const [excelJsonData, setExcelJsonData] = useState<any[]>([]);
@@ -59,17 +59,27 @@ const ChartSpiKpiYearlyChange: React.FC<Props> = ({data}) => {
         }
     }, [xlsxData, data]);
 
+    const dataMax = Math.max(
+        ...combinedData.map((item) => item.restSpi),
+        ...combinedData.map((item) => item.restKpi)
+    )
+    const dataMin = Math.min(
+        ...combinedData.map((item) => item.restSpi),
+        ...combinedData.map((item) => item.restKpi)
+    )
+    const yAxisDomain = [(dataMin - 2), (dataMax + 2)];
+
     return(
     <>
         <ExcelFileReader onFileLoad={handleFileLoad} />
         {
             (xlsxData.length > 0 && data.length > 0)
             ?
-            <Chart data={combinedData}/>
+            <ChartSpiKpi data={combinedData} yAxisDomain={yAxisDomain}/>
             : null
         }
     </>
     )
 }
 
-export default ChartSpiKpiYearlyChange;
+export default OrganizeSpiKpiYearlyChange;

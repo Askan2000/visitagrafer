@@ -21,7 +21,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-additional.d.ts", "src/**/*"],
+  "exclude": ["cypress", "__mocks__", "/email-server", "./cypress.config.ts", "**/*.cy.tsx"]
 }

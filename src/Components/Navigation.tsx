@@ -5,23 +5,22 @@ import FetchDataMonthlyKPI from './FetchData/FetchDataMonthlyChange';
 import FetchDataYearlyKPI from './FetchData/FetchDataYearlyChange';
 import FetchDataYearlyChangeTotAndRest from './FetchData/FetchDataYearlyChangeTotAndRest'
 import Home from './Home';
-//import KpiAndSPI from './UploadData/KpiAndSPI'
 import FetchEurostatData from './FetchData/FetchEurostatKpi';
-import SpiDelindex from './UploadData/SpiDelindex';
-import FetchForSpiKpi from './FetchData/FetchForSpiKpi';
+import FetchSpiKpi from './FetchData/FetchSpiKpi';
+import OrganizeSpiDelindex from './OrganizeData/OrganizeSpiDelindex';
 
 const Navigation: React.FC = () => {
   return (
     <>
-    <Navbar bg="light" expand="lg">
+    <Navbar data-cy="navbar" bg="light" expand="lg">
       <Navbar.Brand href="/visitagrafer">Visita grafer</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <NavDropdown title="Välj graf" id="basic-nav-dropdown">
+        <NavDropdown data-cy="dropdown" title="Välj graf" id="basic-nav-dropdown">
           <NavDropdown.Item>
             <Link to="/visitagrafer">Hem</Link>
           </NavDropdown.Item>
-          <NavDropdown.Item>
+          <NavDropdown.Item data-cy="dropdown-item2">
             <Link to="/kpimonthlyrestaurants">Restaurangpriser månadstakt</Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
@@ -36,7 +35,7 @@ const Navigation: React.FC = () => {
           <NavDropdown.Item>
             <Link to="/kpiandspi">KPI och SPI</Link>
           </NavDropdown.Item>
-          <NavDropdown.Item>
+          <NavDropdown.Item data-cy="dropdown-item6">
             <Link to="/eurostat">Prisutveckling restaurang norden</Link>
           </NavDropdown.Item>
         </NavDropdown>
@@ -48,8 +47,8 @@ const Navigation: React.FC = () => {
         <Route path="/kpimonthlyrestaurants" element = {<FetchDataMonthlyKPI/>}/>
         <Route path="/kpiyearlyrestaurants" element = {<FetchDataYearlyKPI/>}/>
         <Route path="/kpirestaurantsandtotal" element = {<FetchDataYearlyChangeTotAndRest/>}/>
-        <Route path="/spi" element = {<SpiDelindex/>}/>
-        <Route path="/kpiandspi" element = {<FetchForSpiKpi/>}/>
+        <Route path="/spi" element = {<OrganizeSpiDelindex/>}/>
+        <Route path="/kpiandspi" element = {<FetchSpiKpi/>}/>
         <Route path="/eurostat" element = {<FetchEurostatData/>}/>
       </Routes>
     </div>

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
-import axios, {AxiosResponse} from 'axios';
-import DataVisualizerEurostat, { euostatDataIndex } from "../VisualizeData/DataVisualizerEurostat";
+import axios from 'axios';
+import OrganizeEurostatKpi from "../OrganizeData/OrganizeEurostatKpi";
+import { EuostatKpiProps } from "../../Interfaces/IEurostatKpi";
 
 const client = axios.create({
     baseURL: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
@@ -8,18 +9,9 @@ const client = axios.create({
 
 const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
 
-  /* interface EurostatResponse {
-    data: {
-      value: number
-      dimension: { time: { category: { label:  number } } };
-    };
-  }
-
-  const countries = ["SE", "DK", "NO", "FI"]; */
-
     const EurostatData: React.FC = () => { 
   
-        const [eurostatIndex, setEurostatIndex] = useState<euostatDataIndex[]>([]);
+        const [eurostatIndex, setEurostatIndex] = useState<EuostatKpiProps[]>([]);
         const [error, setError] = useState<string | null>(null);
     
         useEffect( () => {
@@ -29,11 +21,7 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
                 let responseIndexDK = await client.get(indexUrl + 'DK');
                 let responseIndexNO = await client.get(indexUrl + 'NO');
                 let responseIndexFI = await client.get(indexUrl + 'FI');
-/* 
-                const responses: AxiosResponse<EurostatResponse>[] = await Promise.all(
-                    countries.map((country => client.get(indexUrl + country) ))
-                ); */
-             
+
                 const seIndexData = Object.entries(responseIndexSE.data.value).map(([, value]) => ({
                     value
                   }));
@@ -55,19 +43,7 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
                     value
                     }));
 
-                /* const eurostatIndexData: EurostatData[] = responses[0].data.data.value.map((item:any, index: number) => {
-                    const countryData = responses.map(response => Object.entries(response.data.value)[index][1]);
-                    const month = responses[0].data.data.dimension.time.category.label[index];
-                    return {
-                      month: month,
-                      indexSE: countryData[0],
-                      indexDK: countryData[1],
-                      indexNO: countryData[2],
-                      indexFI: countryData[3],
-                    } as EurostatData;
-                  }); */
-
-                const mappedEurostatIndex: euostatDataIndex[] = seIndexData.map((item:any, index: any) => {
+                const mappedEurostatIndex: EuostatKpiProps[] = seIndexData.map((item:any, index: any) => {
                     const dk = dkIndexData[index];
                     const no = noIndexData[index];
                     const fi = fiIndexData[index];
@@ -78,7 +54,7 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
                         indexDK: dk.value,
                         indexNO: no.value,
                         indexFI: fi.value,
-                    } as euostatDataIndex;
+                    } as EuostatKpiProps;
                 }); 
                 setEurostatIndex(mappedEurostatIndex);
             }
@@ -95,7 +71,7 @@ const indexUrl = "PRC_HICP_MIDX?format=JSON&lang=EN&coicop=cp111&unit=I15&geo="
     }
     return(
         <div>
-            <DataVisualizerEurostat data={eurostatIndex}/>
+            <OrganizeEurostatKpi data={eurostatIndex}/>
         </div>
     )
 }

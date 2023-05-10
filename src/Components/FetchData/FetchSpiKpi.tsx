@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
 import {YearlyKpiChangeProps} from '../../Interfaces/IYearlyKpiChange';
-import ChartSpiKpiYearlyChange from "../VisualizeData/ChartSpiKpiYearlyChange";
+import OrganizeSpiKpiYearlyChange from "../OrganizeData/OrganizeSpiKpiYearlyChange";
 
 const client = axios.create({
     baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A/KPICOI80MN"
@@ -61,7 +61,7 @@ const query = JSON.stringify({
     }
     return(
         <div>
-            <ChartSpiKpiYearlyChange data={scbData}/>
+            <OrganizeSpiKpiYearlyChange data={scbData}/>
         </div>
     )
 };

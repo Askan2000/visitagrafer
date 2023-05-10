@@ -4,10 +4,10 @@ import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { useCurrentPng } from "recharts-to-png";
 import round from "../Utils/DecimalHandler";
 import {KpiAndSpiProps} from '../../Interfaces/IKpiAndSpi'
-import FileDownloader, {handleDownload} from "../Utils/FileDownloader";
 
 interface Props {
     data: KpiAndSpiProps[]
+    yAxisDomain: number[]
 };
 
 const customLabel = (props: any) => {
@@ -22,8 +22,9 @@ const customLabel = (props: any) => {
         )
 };
 
-const Chart: React.FC<Props> = ({data}) => {
-    const [getPng, { ref, isLoading }] = useCurrentPng();
+const ChartSpiKpi: React.FC<Props> = ({data, yAxisDomain}) => {
+
+    const [getPng, {ref, isLoading}] = useCurrentPng();
 
     //Metod för Export-knappen som sparar xlsx-fil på disk, med hjälp av xlsx-biblioteket
     const handleDownload = useCallback(async () => {
@@ -33,16 +34,6 @@ const Chart: React.FC<Props> = ({data}) => {
         }
     }, [getPng]);
     
-    const dataMax = Math.max(
-        ...data.map((item) => item.restSpi),
-        ...data.map((item) => item.restKpi)
-    )
-    const dataMin = Math.min(
-        ...data.map((item) => item.restSpi),
-        ...data.map((item) => item.restKpi)
-    )
-    const yAxisDomain = [(dataMin - 2), (dataMax + 2)];
-
     return(
     <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}> 
         <div>
@@ -75,10 +66,12 @@ const Chart: React.FC<Props> = ({data}) => {
             <Legend verticalAlign="top" height={50}/>
             </LineChart>
             <br/>
-            <FileDownloader fileDownloaderFunction={} />
+            <button onClick={handleDownload} >
+                {isLoading ? 'Laddar ner...' : 'Exportera'}
+            </button>
         </div>
     </div>
     )
 }
 
-export default Chart;
+export default ChartSpiKpi;

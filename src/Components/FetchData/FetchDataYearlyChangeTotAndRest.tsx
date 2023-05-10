@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import DataVisualizerYearlyTotAndRest, {DataYearlyChangeTotAndRest} from "../VisualizeData/DataVisualizerYearlyChangeTotAndRest";
+import OrganizeTotKpiAndRest from "../OrganizeData/OrganizeTotKpiAndRest";
+import { YearlyChangeTotKpiAndRestProps } from "../../Interfaces/IYearlyChangeTotKpiAndRest";
 
 const client = axios.create({
     baseURL: "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/PR/PR0101/PR0101A"
@@ -51,7 +52,7 @@ const queryKpiRest = JSON.stringify({
 
 const YearlyKPIAndRest: React.FC = () => { 
 
-    const [scbData, setScbData] = useState<DataYearlyChangeTotAndRest[]>([]);
+    const [scbData, setScbData] = useState<YearlyChangeTotKpiAndRestProps[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect( () => {
@@ -63,14 +64,14 @@ const YearlyKPIAndRest: React.FC = () => {
             const totData = responseTot.data.data;
             const restData = responseRest.data.data;
             
-            const mappedTotAndRest: DataYearlyChangeTotAndRest[] = totData.map((tot:any, index: any) => {
+            const mappedTotAndRest: YearlyChangeTotKpiAndRestProps[] = totData.map((tot:any, index: any) => {
             const rest = restData[index];
                 
                 return {
                     month: tot.key[0],
                     indexKPI: tot.values[0],
                     indexRest: rest.values[0]
-                } as DataYearlyChangeTotAndRest;
+                } as YearlyChangeTotKpiAndRestProps;
             });
             setScbData(mappedTotAndRest);
         }
@@ -87,7 +88,7 @@ const YearlyKPIAndRest: React.FC = () => {
     }
     return(
         <div>
-            <DataVisualizerYearlyTotAndRest data={scbData}/>
+            <OrganizeTotKpiAndRest data={scbData}/>
         </div>
     )
 }

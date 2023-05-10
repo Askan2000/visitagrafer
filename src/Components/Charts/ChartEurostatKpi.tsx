@@ -2,20 +2,15 @@ import FileSaver from "file-saver";
 import { useCallback } from "react";
 import { Line, LineChart, XAxis, YAxis, Legend, Tooltip } from "recharts";
 import { useCurrentPng } from "recharts-to-png";
-
-export interface euostatDataIndex {
-    month: number;
-    indexSE: number;
-    indexDK: number;
-    indexNO: number;
-    indexFI: number;
-  };
+import {EuostatKpiProps} from "../../Interfaces/IEurostatKpi"
 
 interface Props {
-    data: euostatDataIndex[];
+    data: EuostatKpiProps[],
+    yAxisDomain: number[],
+    ticks: number[]
 }
 
-const Eurostat: React.FC<Props> = ({data}) => {
+const ChartEurostatKpi: React.FC<Props> = ({data, yAxisDomain, ticks}) => {
 
     const [getPng, { ref, isLoading }] = useCurrentPng();
 
@@ -27,24 +22,13 @@ const Eurostat: React.FC<Props> = ({data}) => {
     }
     }, [getPng]);
 
-    const ticks = data.filter((item, index) => index % 12 === 0).map((item) => item.month);
-    const slicedData = data.slice(216);
-    
-    const maxIndex = Math.max(
-        ...slicedData.map((item) => item.indexSE),
-        ...slicedData.map((item) => item.indexDK),
-        ...slicedData.map((item) => item.indexNO),
-        ...slicedData.map((item) => item.indexFI)
-    )
-        const yAxisDomain = [90, Math.ceil(maxIndex / 10) * 10];
-   
 return(<>
     {
         (data.length > 0 ) 
         ?
         <div style={{display:"flex", justifyContent:"center"}} >
         <div>
-            <LineChart data={slicedData} width={800} height={500} ref={ref}
+            <LineChart data={data} width={800} height={500} ref={ref}
                 margin={{ top: 100, right: 40, left: 40, bottom: 50 }}>
                 <text x={20} y={20} 
                 style={{fontSize: 24, fontWeight: 'bold', fill: '#595959'}}>
@@ -52,7 +36,7 @@ return(<>
                 </text>
                 <text x={20} y={45} 
                 style={{fontSize: 18, fill: '#595959'}}>
-                  Index, januari 2015 = 100. Data till och med {slicedData[slicedData.length-1]?.month}
+                  Index, januari 2015 = 100. Data till och med {data[data.length-1]?.month}
                 </text>
                 <text x={20} y={70} 
                 style={{fontSize: 16, fontStyle:'italic', fill: '#595959'}}>
@@ -72,14 +56,14 @@ return(<>
             </LineChart>
             <br/>
             <button onClick={handleDownload}>
-            {isLoading ? 'Laddar ner...' : 'Exportera'}
+              {isLoading ? 'Laddar ner...' : 'Exportera'}
             </button>
         </div>
     </div>
     : null
-}
-</>
-)
+    }
+  </>
+  )
 }
 
-export default Eurostat;
+export default ChartEurostatKpi;
