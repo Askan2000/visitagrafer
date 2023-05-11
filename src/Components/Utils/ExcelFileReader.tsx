@@ -1,6 +1,6 @@
 import { read, utils } from "xlsx";
 
-//Metod för att hantera uppladdad fil genom knappen
+//Metod för att hantera uppladdad fil
 const ExcelFileReader  = ({onFileLoad}: any) => {
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

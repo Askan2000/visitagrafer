@@ -1,11 +1,9 @@
 import React, {useCallback} from "react";
-import { LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, 
-Legend, BarChart, LabelList, Label } from "recharts";
+import { Bar, XAxis, YAxis, Tooltip,  BarChart } from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
 import round from "../Utils/DecimalHandler";
 import {YearlyKpiChangeProps} from '../../Interfaces/IYearlyKpiChange';
-
 
 interface Props {
   data: YearlyKpiChangeProps[],
@@ -30,7 +28,7 @@ const ChartKpiYearlyChange: React.FC<Props> = ({ data, yAxisDomain }) => {
   const handleDownload = useCallback(async () => {
     const png = await getPng();
     if (png) {
-      FileSaver.saveAs(png, 'KPI_restaurang_årstakt.png');
+      FileSaver.saveAs(png, 'KPI restaurang årstakt.png');
     }
   }, [getPng]);
 

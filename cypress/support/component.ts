@@ -1,18 +1,5 @@
 import './commands'
 import { mount } from 'cypress/react18'
-/* import { BrowserRouter } from 'react-router-dom'
-
-
-
-Cypress.Commands.add('mount', (component, options = {}) => {
-  const { routerProps = { initialEntries: ['/'] }, ...mountOptions } = options
-
-  const wrapped = <BrowserRouter {...routerProps}>{component} </BrowserRouter>
-
-  return mount(wrapped, mountOptions)
-}) */
-
-
 
 // ***********************************************************
 // This example support/component.ts is processed and

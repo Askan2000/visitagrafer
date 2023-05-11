@@ -28,7 +28,7 @@ const ChartKpiMonthlyChange: React.FC<Props> = ({data, yAxisDomain}) => {
     const handleDownload = useCallback(async () => {
       const png = await getPng();
       if (png) {
-        FileSaver.saveAs(png, 'KPI_restaurang_månadstakt.png');
+        FileSaver.saveAs(png, 'KPI restaurang månadstakt.png');
       }
     }, [getPng]);
     

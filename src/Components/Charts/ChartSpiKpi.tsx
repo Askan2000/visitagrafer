@@ -26,7 +26,6 @@ const ChartSpiKpi: React.FC<Props> = ({data, yAxisDomain}) => {
 
     const [getPng, {ref, isLoading}] = useCurrentPng();
 
-    //Metod för Export-knappen som sparar xlsx-fil på disk, med hjälp av xlsx-biblioteket
     const handleDownload = useCallback(async () => {
         const png = await getPng();
         if (png) {

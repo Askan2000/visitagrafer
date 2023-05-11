@@ -1,5 +1,4 @@
 
-
 //Räkna ut senaste månad och år i datan
 const GetLatestMonthAndYear = (props:any) => {
     const formatter = new Intl.DateTimeFormat('se', { month: 'long', year: 'numeric' });

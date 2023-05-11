@@ -1,6 +1,5 @@
 import React, {useCallback} from "react";
-import { LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, 
-Legend, BarChart, LabelList, Label } from "recharts";
+import { LineChart, Line, XAxis, YAxis,Tooltip, Legend} from "recharts";
 import FileSaver from "file-saver";
 import { useCurrentPng } from "recharts-to-png";
 import round from "../Utils/DecimalHandler";
@@ -31,7 +30,7 @@ const ChartKpiYearlyChangeTotAndRest: React.FC<Props> = ({data, yAxisDomain}) =>
     const png = await getPng();
 
     if (png) {
-      FileSaver.saveAs(png, 'KPI_restaurang_och_totalt_årstakt.png');
+      FileSaver.saveAs(png, 'KPI restaurang och totalt årstakt.png');
     }
   }, [getPng]);
   

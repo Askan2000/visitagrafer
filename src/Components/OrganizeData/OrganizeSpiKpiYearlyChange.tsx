@@ -41,7 +41,7 @@ const OrganizeSpiKpiYearlyChange: React.FC<Props> = ({data}) => {
 
     }, [excelJsonData]);
 
-    // Skapar array med data att plotta. Körs bara när state ändras för xlsxData el scbData
+    // Skapar array med data att plotta. Körs bara när state ändras för xlsxData eller data
     useEffect(( ) => {
         if(xlsxData.length > 0 && data.length > 0){
             const slicedDataToFitSPI = data.slice(460);

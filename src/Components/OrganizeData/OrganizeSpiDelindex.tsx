@@ -4,7 +4,7 @@ import ExcelFileReader from '../Utils/ExcelFileReader';
 import GetLatestMonthAndYear from "../Utils/GetLatestMonthAndYear"
 import ChartSpiDelindex from '../Charts/ChartSpiDelindex';
 
-const OrganizeSpiDelindex = () => {
+const OrganizeSpiDelindex: React.FC = () => {
     const [xlsxData, setXlsxData] = useState<any[]>([]);
     const [monthAndYear, setMonthAndYear] = useState<string>('');
     const [excelJsonData, setExcelJsonData] = useState<any[]>([]);

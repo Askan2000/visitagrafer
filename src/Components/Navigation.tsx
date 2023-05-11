@@ -17,26 +17,24 @@ const Navigation: React.FC = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <NavDropdown data-cy="dropdown" title="Välj graf" id="basic-nav-dropdown">
-          <NavDropdown.Item>
-            <Link to="/visitagrafer">Hem</Link>
+          <NavDropdown.Item href="/visitagrafer"> Hem </NavDropdown.Item>
+          <NavDropdown.Item data-cy="dropdown-item2" href="/kpimonthlyrestaurants">
+            Restaurangpriser månadstakt
           </NavDropdown.Item>
-          <NavDropdown.Item data-cy="dropdown-item2">
-            <Link to="/kpimonthlyrestaurants">Restaurangpriser månadstakt</Link>
+          <NavDropdown.Item href="/kpiyearlyrestaurants">
+            Restaurangpriser årstakt
           </NavDropdown.Item>
-          <NavDropdown.Item>
-            <Link to="/kpiyearlyrestaurants">Restaurangpriser årstakt</Link>
+          <NavDropdown.Item href="/kpirestaurantsandtotal">
+            KPI och restaurangpriserna
           </NavDropdown.Item>
-          <NavDropdown.Item>
-            <Link to="/kpirestaurantsandtotal">KPI och restaurangpriserna</Link>
+          <NavDropdown.Item href="/spi">
+            SPI per produktkategori
           </NavDropdown.Item>
-          <NavDropdown.Item>
-            <Link to="/spi">SPI per produktkategori</Link>
+          <NavDropdown.Item href="/kpiandspi">
+            KPI och SPI
           </NavDropdown.Item>
-          <NavDropdown.Item>
-            <Link to="/kpiandspi">KPI och SPI</Link>
-          </NavDropdown.Item>
-          <NavDropdown.Item data-cy="dropdown-item6">
-            <Link to="/eurostat">Prisutveckling restaurang norden</Link>
+          <NavDropdown.Item data-cy="dropdown-item6" href="/eurostat">
+            Prisutveckling restaurang norden
           </NavDropdown.Item>
         </NavDropdown>
       </Navbar.Collapse>
